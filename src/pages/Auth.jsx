@@ -3,7 +3,7 @@ import Authentication from "../components/Authentication";
 
 const Auth = () => {
   return (
-    <div className="w-full max-h-[400px] h-full">
+    <div className="w-full h-[100vh] flex">
       <Authentication />
     </div>
   );

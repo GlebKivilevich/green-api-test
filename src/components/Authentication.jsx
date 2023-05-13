@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./auth.css";
 import axios from "axios";
+
 const Authentication = () => {
   const navigate = useNavigate();
   const [idInstance, setIdInstance] = useState("");
@@ -98,7 +98,7 @@ const Authentication = () => {
   };
 
   return (
-    <div className="max-w-[700px] w-full h-full py-7 px-3 bg-green-500 m-auto rounded-lg">
+    <div className="max-w-[700px] w-full min-h-[400px] max-h-[700px] py-7 px-3 bg-green-500 m-auto rounded-lg">
       <h1 className="text-2xl text-center mb-5 mt-3">Войти в чаты</h1>
       <form className="max-w-[100%] m-auto flex justify-center flex-col">
         <div className="flex flex-col max-w-[70%] w-full m-auto">
@@ -136,7 +136,6 @@ const Authentication = () => {
           )}
           {requestError && requestErrorMessage && (
             <div>
-              {" "}
               <div className="text-red-600 mt-2">{requestErrorMessage}</div>
             </div>
           )}
