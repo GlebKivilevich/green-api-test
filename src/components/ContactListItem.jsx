@@ -2,7 +2,7 @@ import React from "react";
 
 const ContactListItem = (props) => {
   return (
-    <div className="py-2 pl-2 flex min-h-[60px] h-full items-center">
+    <div className="py-2 pl-2 pr-1.5 flex min-h-[60px] h-full items-center">
       <div className="mr-5 max-w-[51px] max-h-[51px] h-full w-full rounded-full border-2 flex items-center justify-center">
         <img
           className="max-w-[50px]  rounded-full"

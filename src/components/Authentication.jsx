@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -32,6 +32,25 @@ const Authentication = () => {
         break;
     }
   };
+
+  function checkAuthCookie() {
+    const authCookie = document.cookie.split(";");
+    let obj = {};
+
+    authCookie.forEach((el) => {
+      let item = el.trim().split("=");
+      obj[item[0]] = `${item[1]}`;
+    });
+
+    if (obj.idInstance && obj.apiTokenInstance) {
+      setIdInstance(state => state = obj.idInstance);
+      setApiTokenInstance(state => state = obj.apiTokenInstance);
+    }
+  }
+
+  useEffect(() => {
+    checkAuthCookie();
+  }, []);
 
   const idInstanceHandler = (e) => {
     setIdInstance(e.target.value);
@@ -70,7 +89,9 @@ const Authentication = () => {
             setStateInstance(true);
             setRequestError(false);
             setRequestErrorMessage("");
-            navigate("/")
+            document.cookie = `idInstance=${idInstance}`;
+            document.cookie = `apiTokenInstance=${apiTokenInstance}`;
+            navigate("/");
           } else {
             setRequestError(true);
             setRequestErrorMessage(
@@ -86,15 +107,16 @@ const Authentication = () => {
             );
           }
         });
-        console.log("finish")
+      console.log("finish");
     } else {
-      setApiTokenInstanceError("Некоректный Api Token Instance, необходимо 50 символов.");
+      setApiTokenInstanceError(
+        "Некоректный Api Token Instance, необходимо 50 символов."
+      );
       setIdInstanceError("Некоректный Id Instance, необходимо 10 цифр.");
       setIdInstanceDirty(true);
       setApiTokenInstanceDirty(true);
       console.log("err");
     }
-    
   };
 
   return (

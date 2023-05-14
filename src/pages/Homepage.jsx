@@ -1,14 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ContactList from "../components/ContactList";
 import Chat from "../components/Chat";
 const Homepage = () => {
   const navigate = useNavigate();
-  const user = true;
 
-  if (!user) {
-    navigate("/auth");
+  function checkAuthCookie() {
+    const authCookie = document.cookie.split(";");
+    let obj = {};
+
+    authCookie.forEach((el) => {
+      let item = el.trim().split("=");
+      obj[item[0]] = `${item[1]}`;
+    });
+
+    if (!obj.idInstance && !obj.apiTokenInstance) {
+      navigate("/auth");
+    }
   }
+
+  useEffect(() => {
+    checkAuthCookie();
+  }, []);
 
   return (
     <div className="flex justify-center m-auto">
