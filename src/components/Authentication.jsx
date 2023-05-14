@@ -43,8 +43,12 @@ const Authentication = () => {
     });
 
     if (obj.idInstance && obj.apiTokenInstance) {
-      setIdInstance(state => state = obj.idInstance);
-      setApiTokenInstance(state => state = obj.apiTokenInstance);
+      setIdInstance((state) => (state = obj.idInstance));
+      setApiTokenInstance((state) => (state = obj.apiTokenInstance));
+      setIdInstanceDirty(false);
+      setIdInstanceError("");
+      setApiTokenInstanceDirty(false);
+      setApiTokenInstanceError("");
     }
   }
 
@@ -82,6 +86,7 @@ const Authentication = () => {
 
     if (idInstanceError === "" && apiTokenInstanceError === "") {
       const url = `https://api.green-api.com/waInstance${idInstance}/getStateInstance/${apiTokenInstance}`;
+
       axios
         .get(url)
         .then((res) => {
@@ -107,15 +112,15 @@ const Authentication = () => {
             );
           }
         });
-      console.log("finish");
     } else {
-      setApiTokenInstanceError(
-        "Некоректный Api Token Instance, необходимо 50 символов."
-      );
-      setIdInstanceError("Некоректный Id Instance, необходимо 10 цифр.");
-      setIdInstanceDirty(true);
-      setApiTokenInstanceDirty(true);
-      console.log("err");
+      if (idInstance.length < 10 || idInstance.length > 10) {
+        setIdInstanceError("Некоректный Id Instance, необходимо 10 цифр.");
+        setIdInstanceDirty(true);
+      }
+      if (apiTokenInstance < 50 || apiTokenInstance > 50) {
+        setApiTokenInstanceError("Некоректный Api Token Instance, необходимо 50 символов.");   
+        setApiTokenInstanceDirty(true);
+      }
     }
   };
 
