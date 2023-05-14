@@ -1,7 +1,7 @@
 import "./App.css";
 import Auth from "./pages/Auth";
-import { Routes, Route, useNavigate  } from "react-router-dom";
 import Homepage from "./pages/Homepage";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 function App() {
@@ -16,12 +16,12 @@ function App() {
       obj[item[0]] = `${item[1]}`;
     });
 
-    if (obj.idInstance && obj.apiTokenInstance) {
+    if (!obj.idInstance && !obj.apiTokenInstance) {
       navigate("/auth");
     } else {
       navigate("/home");
     }
-  } 
+  }
 
   useEffect(() => {
     checkAuthCookie();
@@ -29,9 +29,13 @@ function App() {
 
   return (
     <>
-
+      <Routes>
+        <Route path="/home" element={<Homepage />} />
+        <Route path="/auth" element={<Auth />} />
+        {/* <Route path="*" element={}/> */}
+      </Routes>
     </>
-    )
+  );
 }
 
 export default App;

@@ -43,8 +43,8 @@ const Authentication = () => {
     });
 
     if (obj.idInstance && obj.apiTokenInstance) {
-      setIdInstance((state) => (state = obj.idInstance));
-      setApiTokenInstance((state) => (state = obj.apiTokenInstance));
+      setIdInstance(state => (state = obj.idInstance));
+      setApiTokenInstance(state => (state = obj.apiTokenInstance));
       setIdInstanceDirty(false);
       setIdInstanceError("");
       setApiTokenInstanceDirty(false);
@@ -96,7 +96,7 @@ const Authentication = () => {
             setRequestErrorMessage("");
             document.cookie = `idInstance=${idInstance}`;
             document.cookie = `apiTokenInstance=${apiTokenInstance}`;
-            navigate("/");
+            navigate("/home");
           } else {
             setRequestError(true);
             setRequestErrorMessage(
