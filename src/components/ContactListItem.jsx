@@ -1,6 +1,32 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
-const ContactListItem = (props) => {
+const ContactListItem = ({ phoneNumber, idInstance, apiTokenInstance }) => {
+  const [chatsUser, setChatsUser] = useState();
+  function getChatsUser(url, requestOptions) {
+    console.log("requestOptions>>", JSON.parse(requestOptions));
+
+    axios
+      .post(url, requestOptions)
+      .then((res) => console.log("res>>>", res.data)) //setChatsUser((state) => (state = res.data))
+      .catch((err) => console.log("err", err)); // JSON.parse( err.config.data)
+  }
+
+  useEffect(() => {
+    if (
+      idInstance !== undefined &&
+      apiTokenInstance !== undefined &&
+      phoneNumber !== undefined
+    ) {
+      const url = `https://api.green-api.com/waInstance${idInstance}/getContactInfo/${apiTokenInstance}`;
+
+      const requestOptions = JSON.stringify({
+        chatId: phoneNumber,
+      });
+      getChatsUser(url, requestOptions);
+    }
+  }, []);
+
   return (
     <div className="py-2 pl-2 pr-1.5 flex min-h-[60px] h-full items-center">
       <div className="mr-5 max-w-[51px] max-h-[51px] h-full w-full rounded-full border-2 flex items-center justify-center">
@@ -14,7 +40,9 @@ const ContactListItem = (props) => {
           <strong>Ivan</strong>
         </p>
         {/* Ограничение 40 символов */}
-        <p className="text-sm break-all">lastmesslastmesslastmesslastmesslast1234...</p>
+        <p className="text-sm break-all">
+          lastmesslastmesslastmesslastmesslast1234...
+        </p>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ContactList from "../components/ContactList";
 import Chat from "../components/Chat";
@@ -6,17 +6,21 @@ import Chat from "../components/Chat";
 import { RxExit } from "react-icons/rx";
 
 const Homepage = () => {
+  const [obj, setObject] = useState({});
+  // const obj = {};
   const navigate = useNavigate();
 
   const authCookie = document.cookie.split(";");
-  let obj = {};
 
   function checkAuthCookie() {
     authCookie.forEach((el) => {
       let item = el.trim().split("=");
-      obj[item[0]] = `${item[1]}`;
-    });
 
+      let test = item[0];
+      let test1 = item[1];
+      let lastItem = (obj[test] = test1);
+      setObject({ ...obj, lastItem });
+    });
     if (!obj.idInstance && !obj.apiTokenInstance) {
       navigate("/auth");
     }
@@ -26,19 +30,18 @@ const Homepage = () => {
     checkAuthCookie();
   }, []);
 
-  const exitChat  = ()  => {
+  const exitChat = () => {
     checkAuthCookie();
     const keysCookieObj = Object.keys(obj);
     const valuesCookieObj = Object.values(obj);
-    console.log(obj);
-    let idInstanceExitKey;  
+
+    let idInstanceExitKey;
     let apiTokenInstanceExitKey;
 
     let idInstanceExitValue;
     let apiTokenInstanceExitValue;
 
     keysCookieObj.forEach((el) => {
-      console.log(el);
       if (el === "idInstance") {
         idInstanceExitKey = el;
       }
@@ -48,7 +51,6 @@ const Homepage = () => {
     });
 
     valuesCookieObj.forEach((el) => {
-      console.log(el);
       if (el === `${obj.idInstance}`) {
         idInstanceExitValue = el;
       }
@@ -82,7 +84,10 @@ const Homepage = () => {
           className="max-w-[380px] w-full h-full overflow-auto"
           style={{ maxHeight: "calc(100vh - 68px)" }}
         >
-          <ContactList />
+          <ContactList
+            idInstance={obj.idInstance}
+            apiTokenInstance={obj.apiTokenInstance}
+          />
         </div>
       </div>
 
